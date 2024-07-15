@@ -1,0 +1,32 @@
+import typing as tp
+import uuid
+
+from dishka import Container
+from fastapi import APIRouter, Depends, HTTPException, Path, Response, UploadFile, status
+
+router = APIRouter(prefix="/{{ kind }}", tags=["{{ kind }}"])
+
+
+@router.get("/{uuid}/")
+async def get_obj() -> dict:
+    ...
+
+@router.get("/{uuid}/state/")
+async def get_state() -> ...:
+    ...
+
+@router.delete("/{uuid}/")
+async def delete_obj() -> Response:
+    ...
+
+@router.put("/{uuid}/status/")
+async def update_status() -> Response:
+    ...
+
+@router.put("/{uuid}/{settings_key}/")
+async def update_settings() -> Response:
+    ...
+
+@router.put("/{uuid}/{configuration_key}/")
+async def update_configuration() -> Response:
+    ...
