@@ -1,0 +1,22 @@
+services:
+  app:
+    build: ..
+    ports:
+      - "${PUBLIC_PORT}:8000"
+    volumes:
+      - ../rest_json_schema:/opt/app
+    environment:
+      DB_USER: ${DB_USER:?}
+      DB_PASSWORD: ${DB_PASSWORD:?}
+      DB_DB_NAME: ${DB_DB_NAME:?}
+      DB_PORT: ${DB_PORT:?}
+      DB_HOST: ${DB_HOST:?}
+      APP_NAME: ${APP_NAME:?}
+      APP_VERSION: ${APP_VERSION:?}
+      APP_DEBUG: ${APP_DEBUG:?}
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
