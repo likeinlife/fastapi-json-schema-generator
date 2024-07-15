@@ -1,0 +1,39 @@
+kind: engine
+name: hello-world
+version: 0.0.1
+description: "My application"
+configuration:
+  specification: >
+    {
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  settings: >
+    {
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
