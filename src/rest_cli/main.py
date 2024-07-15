@@ -4,8 +4,8 @@ from pathlib import Path
 import typer
 from datamodel_code_generator import DataModelType, InputFileType, PythonVersion, generate
 
+from .constants import ROOT_NAME
 from .errors import InputFilePathNotFoundError
-from .loader import load_yaml_specification
 
 # ruff: noqa: ARG001
 app = typer.Typer(
@@ -18,12 +18,12 @@ app = typer.Typer(
 
 @app.command("models", help="Generate pydantic models")
 def _models(
-    yaml_path: tp.Annotated[Path, typer.Option("--yaml-schema", "-i")],
+    json_path: tp.Annotated[Path, typer.Option("--json-schema", "-i")],
     out_dir: tp.Annotated[Path, typer.Option("--out-dir", "-o")],
 ) -> None:
-    if not yaml_path.exists():
-        raise InputFilePathNotFoundError(yaml_path)
-    output_path = out_dir / f"{yaml_path.stem}.py"
+    if not json_path.exists():
+        raise InputFilePathNotFoundError(json_path)
+    output_path = out_dir / f"{json_path.stem}.py"
     if output_path.exists():
         confirm_generate = typer.confirm("Overwrite existing file?")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -32,12 +32,13 @@ def _models(
     if not confirm_generate:
         raise typer.Abort
 
-    content = load_yaml_specification(yaml_path)
+    with json_path.open() as file_obj:
+        content = file_obj.read()
 
     generate(
-        content.model_dump_json(),
+        content,
         input_file_type=InputFileType.JsonSchema,
-        input_filename=yaml_path.name,
+        input_filename=json_path.name,
         output=output_path,
         output_model_type=DataModelType.PydanticV2BaseModel,
         snake_case_field=True,
@@ -46,6 +47,7 @@ def _models(
         target_python_version=PythonVersion.PY_312,
         field_constraints=True,
         use_field_description=True,
+        class_name=ROOT_NAME,
     )
     typer.echo(f"Generated: {output_path}")
 
