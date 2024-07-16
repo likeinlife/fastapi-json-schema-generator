@@ -6,7 +6,7 @@ from fastapi import FastAPI, Request, Response, status
 logger = structlog.get_logger()
 
 
-async def _logger_middleware(request: Request, call_next: tp.Callable[[Request], tp.Awaitable]) -> tp.Any:  # noqa: ANN401
+async def _logger_middleware(request: Request, call_next: tp.Callable[[Request], tp.Awaitable]) -> tp.Any:
     structlog.contextvars.clear_contextvars()
 
     client_host = request.client.host if request.client else "unknown"

@@ -9,6 +9,7 @@
 #   generate-hashes: false
 #   universal: false
 
+-e file:.
 alembic==1.13.2
     # via rest-json-schema
 annotated-types==0.7.0
@@ -47,6 +48,8 @@ genson==1.3.0
     # via datamodel-code-generator
 greenlet==3.0.3
     # via sqlalchemy
+gunicorn==22.0.0
+    # via rest-json-schema
 h11==0.14.0
     # via httpcore
     # via uvicorn
@@ -84,6 +87,7 @@ orjson==3.10.6
 packaging==24.1
     # via black
     # via datamodel-code-generator
+    # via gunicorn
 pathspec==0.12.1
     # via black
 platformdirs==4.2.2
