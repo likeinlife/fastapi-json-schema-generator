@@ -8,7 +8,7 @@ from datamodel_code_generator import DataModelType, InputFileType, PythonVersion
 from .constants import ROOT_NAME
 from .errors import InputFilePathNotFoundError
 
-# ruff: noqa: ARG001
+TEMPLATE_DIR: tp.Final[Path] = Path(__file__).parent / "templates"
 app = typer.Typer(
     name="rest-cli",
     help="REST CLI model generator",
@@ -57,19 +57,19 @@ def _models(
 
 @app.command("routes", help="Generate FastAPI routes for specific model file")
 def _routes(
-    models_path: tp.Annotated[Path, typer.Option("--models-path", "-i")],
+    model_path: tp.Annotated[Path, typer.Option("--model-path", "-i")],
     rest_routes: tp.Annotated[Path, typer.Option("--routes", "-o")] = Path(
         "./src/rest_json_schema/presentation/api/routes/json_schemas_rest/",
     ),
 ) -> None:
-    environment = jinja2.Environment(loader=jinja2.PackageLoader("templates"), autoescape=True)
+    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR), autoescape=True)
     template = environment.get_template("routes.jinja2")
-    kind = models_path.stem
+    kind = model_path.stem
     output_path = rest_routes / f"{kind}.py"
 
     confirm_generate = True
     if output_path.exists():
-        confirm_generate = typer.confirm("Overwrite existing file?")
+        confirm_generate = typer.confirm(f"Overwrite existing file: `{output_path}`?")
     if not confirm_generate:
         raise typer.Abort
 
@@ -80,7 +80,7 @@ def _routes(
     typer.echo(f"Generated: {output_path}")
 
 
-@app.command("routes", help="Generate FastAPI routes for specific model file")
+@app.command("routes-all", help="Generate FastAPI routes for directory with models")
 def _routes_all(
     models_path: tp.Annotated[Path, typer.Option("--models-path", "-i")] = Path(
         "./src/rest_json_schema/presentation/api/schemas/",
@@ -89,19 +89,22 @@ def _routes_all(
         "./src/rest_json_schema/presentation/api/routes/json_schemas_rest/",
     ),
 ) -> None:
-    environment = jinja2.Environment(loader=jinja2.FileSystemLoader("src/rest_cli/templates"), autoescape=True)
+    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR), autoescape=True)
     template = environment.get_template("routes.jinja2")
-    kind = models_path.stem
-    output_path = rest_routes / f"{kind}.py"
+    for current_model_path in models_path.glob("*.py"):
+        if current_model_path.stem.startswith("_"):
+            continue
+        kind = current_model_path.stem
+        output_path = rest_routes / f"{kind}.py"
 
-    confirm_generate = True
-    if output_path.exists():
-        confirm_generate = typer.confirm("Overwrite existing file?")
-    if not confirm_generate:
-        raise typer.Abort
+        confirm_generate = True
+        if output_path.exists():
+            confirm_generate = typer.confirm(f"Overwrite existing file: `{output_path}`?")
+        if not confirm_generate:
+            raise typer.Abort
 
-    rest_routes.mkdir(parents=True, exist_ok=True)
-    rendered = template.render(kind=kind)
-    with output_path.open("w") as file_obj:
-        file_obj.write(rendered)
-    typer.echo(f"Generated: {output_path}")
+        rest_routes.mkdir(parents=True, exist_ok=True)
+        rendered = template.render(kind=kind)
+        with output_path.open("w") as file_obj:
+            file_obj.write(rendered)
+        typer.echo(f"Generated: {output_path}")
