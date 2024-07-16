@@ -1,0 +1,45 @@
+{
+  "properties": {
+    "kind": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 10
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "specification": {
+          "type": "object",
+          "properties": {
+            "a": {
+              "type": "integer"
+            }
+          },
+          "required":["a"]
+        },
+        "settings": {
+          "type": "object",
+          "properties": {
+            "b": {
+              "type": "integer"
+            }
+          },
+          "required":["b"]
+        }
+      },
+      "required": ["specification", "settings"]
+    }
+  },
+  "required": ["kind", "name", "version", "configuration", "description"]
+}

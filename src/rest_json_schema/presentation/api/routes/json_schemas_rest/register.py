@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import format
+from . import format, specific_format
 
 
 def register(router: APIRouter) -> None:
@@ -8,6 +8,7 @@ def register(router: APIRouter) -> None:
 
     routers: list[APIRouter] = [
         format.router,
+        specific_format.router,
     ]
 
     for _router in routers:
