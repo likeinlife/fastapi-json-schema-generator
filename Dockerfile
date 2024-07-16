@@ -7,11 +7,11 @@ RUN apk add curl
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /opt/requirements.txt
+COPY requirements.lock /opt/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /opt/requirements.txt
 
-COPY ./rest_json_schema .
+COPY ./src/rest_json_schema .
 
 RUN chmod +x ./docker-entrypoint.sh
 

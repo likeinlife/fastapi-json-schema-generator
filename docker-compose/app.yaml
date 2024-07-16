@@ -4,7 +4,7 @@ services:
     ports:
       - "${PUBLIC_PORT}:8000"
     volumes:
-      - ../rest_json_schema:/opt/app
+      - ../src/rest_json_schema:/opt/app
     environment:
       DB_USER: ${DB_USER:?}
       DB_PASSWORD: ${DB_PASSWORD:?}

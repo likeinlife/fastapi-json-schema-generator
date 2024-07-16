@@ -9,7 +9,6 @@
 #   generate-hashes: false
 #   universal: false
 
--e file:.
 alembic==1.13.2
     # via rest-json-schema
 annotated-types==0.7.0
