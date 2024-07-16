@@ -1,7 +1,7 @@
 [project]
 name = "rest-json-schema"
 version = "0.1.0"
-description = "Add your description here"
+description = "Сервис для генерации Pydantic-моделей, REST-эндпоинтов по JSON-schema."
 authors = [
     { name = "likeinlife", email = "likeinlife@outlook.com" }
 ]
