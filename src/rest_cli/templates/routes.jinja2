@@ -7,7 +7,7 @@ from domain.entities.app import App
 from domain.enums import StateEnum
 from logic.interactors.app import AppInteractor
 from presentation.api.dependencies import get_interactor
-from presentation.api.schemas.{{ kind }} import Root
+from presentation.api.schemas.{{ kind }} import Root, Settings, Specification
 
 kind = "{{ kind }}"
 router = APIRouter(prefix=f"/{kind}", tags=[kind])
@@ -60,18 +60,18 @@ async def update_status(
 @router.patch("/{uuid}/settings/", status_code=status.HTTP_200_OK)
 async def update_settings(
     uuid: tp.Annotated[UUID, Path()],
-    settings: tp.Annotated[dict, Body()],
+    settings: tp.Annotated[Settings, Body()],
     interactor: tp.Annotated[AppInteractor, Depends(get_interactor)],
 ) -> Response:
-    await interactor.update_settings(kind=kind, id_=uuid, settings=settings)
+    await interactor.update_settings(kind=kind, id_=uuid, settings=settings.model_dump(mode="json"))
     return Response(status_code=status.HTTP_200_OK)
 
 
 @router.patch("/{uuid}/specification/")
 async def update_specification(
     uuid: tp.Annotated[UUID, Path()],
-    specification: tp.Annotated[dict, Body()],
+    specification: tp.Annotated[Specification, Body()],
     interactor: tp.Annotated[AppInteractor, Depends(get_interactor)],
 ) -> Response:
-    await interactor.update_specification(kind=kind, id_=uuid, specification=specification)
+    await interactor.update_specification(kind=kind, id_=uuid, specification=specification.model_dump(mode="json"))
     return Response(status_code=status.HTTP_200_OK)

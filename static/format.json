@@ -20,14 +20,28 @@
       "type": "object",
       "properties": {
         "specification": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "param_a": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required":["param_a"]
         },
         "settings": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "param_b": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required":["param_b"]
         }
       },
       "required": ["specification", "settings"]
     }
   },
-  "required": ["kind", "name", "version", "configuration"]
+  "required": ["kind", "name", "version", "configuration", "description"]
 }

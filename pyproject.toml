@@ -93,7 +93,7 @@ extend-immutable-calls = [
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = []
 "tests/**/*.py" = ["D", "S", "ANN", "PLR"]
-"**/schemas/**/*.py" = ["ERA001"]
+"**/schemas/**/*.py" = ["ERA001", "TCH003"]
 
 [tool.ruff.lint.isort]
 known-first-party = [

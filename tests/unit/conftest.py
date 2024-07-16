@@ -1,4 +1,4 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 
 import pytest
 from fastapi import FastAPI
@@ -31,7 +31,10 @@ def created_app(client: TestClient) -> UUID:
         "name": "string",
         "version": "string",
         "description": "string",
-        "configuration": {"specification": {}, "settings": {}},
+        "configuration": {
+            "specification": {"param_a": str(uuid4())},
+            "settings": {"param_b": str(uuid4())},
+        },
     }
     response = client.post(endpoint, json=payload)
     return UUID(response.json())
