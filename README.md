@@ -119,6 +119,16 @@ from . import format, specific_format, new_route  <---- Новый импорт
 
 Основная задумка программы - возможность изменять схему параметров Specification, Settings
 
+# Диаграммы
+
+## Добавление новой json-schema
+
+![](./diagrams/out/insert-new-pipeline.png)
+
+## Схема взаимодействий
+
+![](./diagrams/out/pipeline.png)
+
 # Тестирование
 
 Для тестирования используется `pytest`

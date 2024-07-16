@@ -1,0 +1,19 @@
+@startuml
+!theme cerulean-outline
+skinparam backgroundColor white
+autonumber
+
+actor user as "User"
+participant cli as "Console line application"
+
+user -> user: Create json-schema document
+
+user -> cli: Check json-schema document
+
+user -> cli: Generate models
+
+user -> cli: Generate REST routes
+
+user -> user: Register created routes
+
+@enduml

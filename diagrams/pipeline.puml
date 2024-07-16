@@ -1,0 +1,33 @@
+@startuml
+!theme cerulean-outline
+skinparam backgroundColor white
+autonumber
+
+actor user as "User"
+participant api as "Chat API"
+participant presentation as "Presentation"
+participant logic as "Logic"
+participant infra as "Infrastracture"
+database db as "DB"
+
+user -> api ++:
+
+api -> presentation ++:
+
+presentation -> logic ++:
+
+logic -> infra ++:
+
+infra -> db ++:
+
+infra <-- db --:
+
+logic <-- infra --:
+
+presentation <-- logic --:
+
+api <-- presentation --:
+
+user <-- api --:
+
+@enduml
