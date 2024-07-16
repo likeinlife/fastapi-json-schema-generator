@@ -3,7 +3,9 @@ from pathlib import Path
 
 import typer
 from datamodel_code_generator import DataModelType, InputFileType, PythonVersion, generate
+from pydantic import ValidationError
 
+from rest_cli.cli.check import validate_json_schema
 from rest_cli.constants import ROOT_NAME
 from rest_cli.errors import InputFilePathNotFoundError
 
@@ -11,13 +13,11 @@ router = typer.Typer(help="Generate pydantic models")
 
 
 def _generate_models(json_path: Path, out_dir: Path) -> None:
-    if not json_path.exists():
-        raise InputFilePathNotFoundError(json_path)
     output_path = out_dir / f"{json_path.stem}.py"
 
     confirm_generate = True
     if output_path.exists():
-        confirm_generate = typer.confirm("Overwrite existing file?")
+        confirm_generate = typer.confirm(f"Overwrite existing file: `{json_path}`?")
     if not confirm_generate:
         raise typer.Abort
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -49,6 +49,13 @@ def _models(
         "./src/rest_json_schema/presentation/api/schemas/",
     ),
 ) -> None:
+    if not json_path.exists():
+        raise InputFilePathNotFoundError(json_path)
+    try:
+        validate_json_schema(json_path)
+    except ValidationError:
+        typer.secho(f"Invalid JSON-schema: {json_path}", fg=typer.colors.RED)
+        raise typer.Abort
     _generate_models(json_path, out_dir)
 
 
@@ -60,4 +67,9 @@ def _models_batch(
     ),
 ) -> None:
     for current_json_path in json_dir.glob("*.json"):
+        try:
+            validate_json_schema(current_json_path)
+        except ValidationError:
+            typer.secho(f"Invalid JSON-schema: {current_json_path}", fg=typer.colors.RED)
+            raise typer.Abort
         _generate_models(current_json_path, out_dir)

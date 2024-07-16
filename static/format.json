@@ -7,23 +7,6 @@
     "name": {
       "type": "string",
       "maxLength": 64
-    },
-    "version": {
-      "type": "string",
-      "maxLength": 10
-    },
-    "description": {
-      "type": "string",
-      "maxLength": 2000
-    },
-    "configuration": {
-      "type": "object",
-      "properties": {
-        "specification": {
-          "type": "object",
-          "properties": {
-            "param_a": {
-              "type": "string",
               "format": "uuid"
             }
           },
