@@ -18,10 +18,16 @@ make app
 
 3. Swagger должен быть доступен по адресу `localhost:8000/api/docs`
 
-4. Завершение работы
+4. Завершить работу
 
 ```shell
 make down-all
+```
+
+5. Удалить volume
+
+```shell
+make down-storages-v
 ```
 
 # CLI
@@ -123,11 +129,15 @@ from . import format, specific_format, new_route  <---- Новый импорт
 
 ## Добавление новой json-schema
 
-![](./diagrams/out/insert-new-pipeline.png)
+![](./static/diagrams/out/insert-new-pipeline.png)
 
 ## Схема взаимодействий
 
-![](./diagrams/out/pipeline.png)
+![](./static/diagrams/out/pipeline.png)
+
+# Скриншоты
+
+Находятся по пути `static/screenshots`
 
 # Тестирование
 
