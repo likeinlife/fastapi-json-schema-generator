@@ -44,19 +44,25 @@ pip install -r requirements.lock
 
 ## Использование
 
-1. Добавить модели
+1. Проверить файлы
 
 ```shell
-rest-cli models -i <Путь до файла формата JSON-schema>
+rest-cli check batch -i <Путь до папки с JSON-schema> -v
 ```
 
-2. Добавить ручки
+2. Добавить модели
 
 ```shell
-rest-cli routes-all
+rest-cli models batch -i <Путь до папки с JSON-schema>
 ```
 
-Для получения списка полных параметров можно воспользоваться флагом `--help`
+3. Добавить ручки
+
+```shell
+rest-cli routes batch
+```
+
+Для получения полного списка параметров можно воспользоваться флагом `--help`
 
 ```shell
 rest-cli --help
