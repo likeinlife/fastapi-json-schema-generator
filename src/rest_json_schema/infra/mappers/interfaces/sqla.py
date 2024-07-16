@@ -2,7 +2,7 @@ import abc
 import typing as tp
 
 from domain.entities.base import BaseEntity
-from infra.db.base import Base
+from infra.db import Base
 
 DTO = tp.TypeVar("DTO", bound=BaseEntity)
 ORM = tp.TypeVar("ORM", bound=Base)

@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 from ._common import _model_config
@@ -14,7 +14,7 @@ class AppSettings(BaseSettings):
     debug: bool = Field(default=False, init=False)
 
 
-class Settings(BaseSettings):
-    app: AppSettings = AppSettings()
-    log: LoggingSettings = LoggingSettings()
-    db: DBSettings = DBSettings()
+class Settings(BaseModel):
+    app: AppSettings = Field(default_factory=AppSettings)
+    log: LoggingSettings = Field(default_factory=LoggingSettings)
+    db: DBSettings = Field(default_factory=DBSettings)

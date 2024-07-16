@@ -1,8 +1,7 @@
-from dataclasses import dataclass
+from utils.wrap_dataclass import WrapDataclassMeta
 
 
-@dataclass(frozen=True, eq=False)
-class BaseError(Exception):
+class BaseError(Exception, metaclass=WrapDataclassMeta):
     """Base error."""
 
     @property
@@ -12,3 +11,11 @@ class BaseError(Exception):
     def __str__(self) -> str:
         """Return error message."""
         return self.message
+
+
+class DomainError(BaseError):
+    """Domain error."""
+
+    @property
+    def message(self) -> str:
+        return "Domain error message"

@@ -1,0 +1,19 @@
+import typing as tp
+import uuid
+
+from domain.entities import App
+from domain.enums import StateEnum
+
+
+class IAppRepository(tp.Protocol):
+    async def create(self, dto: App) -> App: ...
+
+    async def fetch(self, kind: str, id_: uuid.UUID) -> App: ...
+
+    async def update_state(self, kind: str, id_: uuid.UUID, state: StateEnum) -> None: ...
+
+    async def delete(self, kind: str, id_: uuid.UUID) -> None: ...
+
+    async def update_specification(self, kind: str, id_: uuid.UUID, specification: dict) -> None: ...
+
+    async def update_settings(self, kind: str, id_: uuid.UUID, settings: dict) -> None: ...
